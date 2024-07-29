@@ -12,7 +12,7 @@ import app from "./../Api/Firebase";
 
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const apiKey = "AIzaSyCjN8AoHbCVY0oNnjIBGfs2ZenXKMeXyFQ";
+const apiKey = import.meta.env.VITE_genAIKey;
 const genAI = new GoogleGenerativeAI(apiKey);
 
 const model = genAI.getGenerativeModel({
