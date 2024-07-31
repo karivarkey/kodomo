@@ -3,17 +3,21 @@ import { useState } from "react";
 import Markdown from "react-markdown";
 
 const Receive = ({ Message, memes }) => {
-  console.log(Message);
+  //console.log(Message);
+  console.log(Message)
   const response = JSON.parse(Message);
 
   const [url, setUrl] = useState("");
 
   useEffect(() => {
+    console.log(memes)
     if (response.meme) {
       //loop through the memes array and find the meme with same memid as response.memId
-      const meme = memes.find((meme) => meme.id === response.memeId);
+      
+      const meme = memes.find((meme) => meme.id === response.memeId) || "";
+      
       //remove .png from meme.blank
-
+      if (meme){
       let url = meme.blank.replace(".png", "");
       if (response.memeCompoenent.length >= 1) {
         let string = "/";
@@ -25,6 +29,7 @@ const Receive = ({ Message, memes }) => {
         url += string;
       }
       setUrl(url);
+    }
     }
   }, []);
 

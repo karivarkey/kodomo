@@ -162,7 +162,7 @@ const Home = () => {
             onClick={() => {
               //pass a prop called tritle to this navigation
 
-              Navigate("/home/chat", { state: { title: "General Chat" } });
+              navigate("/home/chat", { state: { context: "General Chat" } });
             }}
           >
             <img src={chat} />
