@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import menu from "../assets/Home/menu.svg";
 import search from "../assets/Home/search.svg";
 import line from "../assets/Home/line.svg";
@@ -7,20 +7,13 @@ import Course from "./Course";
 import profile from "./../assets/Home/Buttons/profile.svg";
 import home from "./../assets/Home/Buttons/home.svg";
 import chat from "./../assets/Home/Buttons/chat.svg";
-
-import { useState, useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { getAuth } from "firebase/auth";
-
 import { useNavigate } from "react-router-dom";
-
-import { getFirestore } from "firebase/firestore";
-
-import { doc, getDoc } from "firebase/firestore";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
 import app from "../Api/Firebase";
 
-//create a function to choose a  random color from an array of colors
-
+// Create a function to choose a random color from an array of colors
 const randomColor = () => {
   const colors = [
     "#BBD700",
@@ -36,10 +29,12 @@ const randomColor = () => {
 
 const Home = () => {
   const auth = getAuth(app);
-
   const [userData, setUserData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true); // Flag for loading state
-  const Navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
+  const [input, setInput] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const navigate = useNavigate();
+
   useEffect(() => {
     const fetchData = async () => {
       const db = getFirestore(app);
@@ -47,17 +42,36 @@ const Home = () => {
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         setUserData(docSnap.data());
-        console.log(userData.recommendedCourses);
         setIsLoading(false);
       } else {
-        // doc.data() will be undefined in this case
         console.log("No such document!");
-        toast.error("Enter your interests to get personalised courses");
+        toast.error("Enter your interests to get personalized courses");
         window.location.href = "/interests";
       }
     };
     fetchData();
   }, []);
+
+  const fetchData = (value) => {
+    const result = userData.recommendedCourses.filter((course) => {
+      return (
+        value &&
+        course &&
+        course.courseName &&
+        course.courseName.toLowerCase().includes(value.toLowerCase())
+      );
+    });
+    setSearchResults(result);
+  };
+
+  const handleChange = (value) => {
+    setInput(value);
+    if (value === "") {
+      setSearchResults([]);
+    } else {
+      fetchData(value);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -65,7 +79,7 @@ const Home = () => {
         <div role="status">
           <svg
             aria-hidden="true"
-            class="w-8 h-8 text-white animate-spin dark:text-white fill-secondary"
+            className="w-8 h-8 text-white animate-spin dark:text-white fill-secondary"
             viewBox="0 0 100 101"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -79,7 +93,7 @@ const Home = () => {
               fill="currentFill"
             />
           </svg>
-          <span class="sr-only">Loading...</span>
+          <span className="sr-only">Loading...</span>
         </div>
       </div>
     );
@@ -89,18 +103,36 @@ const Home = () => {
     <div className="flex flex-col justify-between bg-primary min-h-dvh max-h-cvh gap-5">
       <div className="bg-[#FEF2E8] min-h-16 flex justify-between items-center border-b-2 border-black">
         <img src={menu} className="max-w-10 pl-3" />
-        <div className=" font-bold font-mont">KODDOMO</div>
+        <div className="font-bold font-mont">KODDOMO</div>
         <div></div>
       </div>
-      <div className="px-3">
+      <div className="px-3 relative">
         <div className="border-2 border-black flex shadow-[5px_5px_0px_rgb(229_130_190_/_100%)] p-1 gap-3 rounded-md">
           <img src={search} />
           <input
             type="text"
             placeholder="Search"
             className="w-full font-syne font-semibold bg-primary focus:outline-none"
+            value={input}
+            onChange={(e) => handleChange(e.target.value)}
           />
         </div>
+        {input && searchResults.length > 0 && (
+          <div className="absolute z-10 bg-primary border-2 border-black w-full mt-2 rounded-md shadow-lg max-h-60 overflow-y-auto max-w-50 font-fyne font-semibold">
+            {searchResults.map((item, key) => (
+              <div
+                key={key}
+                className="p-2 hover:bg-gray-200 cursor-pointer"
+                onClick={() => {
+                  setInput(item.courseName);
+                  setSearchResults([]);
+                }}
+              >
+                {item.courseName}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
       <div className="px-3 ">
         <div className="border-2 border-black rounded-md shadow-[0px_5px_0px_0px_#000000] pb-2">
@@ -150,7 +182,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div class="fixed bottom-4 left-1/2 transform -translate-x-1/2 inline-flex 0 mx-auto  bg-primary border-2 border-black w-11/12 rounded-full h-16 shadow-[3px_5px_0px_0px_#000000] justify-around">
+      <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 inline-flex 0 mx-auto bg-primary border-2 border-black w-11/12 rounded-full h-16 shadow-[3px_5px_0px_0px_#000000] justify-around">
         <div className="flex justify-center items-center">
           <img src={profile} />
         </div>
@@ -160,8 +192,6 @@ const Home = () => {
         <div className="flex justify-center items-center">
           <button
             onClick={() => {
-              //pass a prop called tritle to this navigation
-
               navigate("/home/chat", { state: { context: "General Chat" } });
             }}
           >
@@ -175,15 +205,12 @@ const Home = () => {
         containerClassName=""
         containerStyle={{}}
         toastOptions={{
-          // Define default options
           className: "",
           duration: 5000,
           style: {
             background: "#E582BE",
             color: "#FAEDCD",
           },
-
-          // Default options for specific types
           success: {
             duration: 3000,
             theme: {
