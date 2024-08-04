@@ -100,7 +100,7 @@ const Home = () => {
   }
 
   return (
-    <div className="flex flex-col justify-between bg-primary min-h-dvh max-h-cvh gap-5">
+    <div className="flex flex-col justify-between bg-primary min-h-dvh max-h-cvh ">
       <div className="bg-[#FEF2E8] min-h-16 flex justify-between items-center border-b-2 border-black">
         <img src={menu} className="max-w-10 pl-3" />
         <div className="font-bold font-mont">KODDOMO</div>
@@ -118,7 +118,7 @@ const Home = () => {
           />
         </div>
         {input && searchResults.length > 0 && (
-          <div className="absolute z-10 bg-primary border-2 border-black w-full mt-2 rounded-md shadow-lg max-h-60 overflow-y-auto max-w-50 font-fyne font-semibold">
+          <div className="absolute z-10 bg-primary border-2 border-black mt-2  rounded-md shadow-lg max-h-60   overflow-y-auto max-w-50 font-fyne font-semibold">
             {searchResults.map((item, key) => (
               <div
                 key={key}
@@ -126,6 +126,9 @@ const Home = () => {
                 onClick={() => {
                   setInput(item.courseName);
                   setSearchResults([]);
+                  navigate("/home/chat", {
+                    state: { context: item.courseName },
+                  });
                 }}
               >
                 {item.courseName}
