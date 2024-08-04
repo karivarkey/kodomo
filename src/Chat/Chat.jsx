@@ -28,14 +28,14 @@ const generationConfig = {
 const Chat = ({ context }) => {
   const location = useLocation();
 
-   context = location.state.context || "Chat";
-  console.log(context)
-   let history  = [
+  context = location.state.context || "Chat";
+  console.log(context);
+  let history = [
     {
       id: 1,
       sender: "User",
       content: `
-  You are an AI named Kodomo designed to help people learn complicated concepts using memes. You need to maintain a funny attitude when asked questions. You should reply with accurate data and meme by filling out the following format JSON.
+  You are an AI named Kodomo designed to help people learn complicated concepts using memes. You need to maintain a funny attitude and give the answer to the question by filling out the following format JSON.
   {
     "meme": (boolen on weather the reply contains a meme or not) ,
     "memeId": (memeid from below given list of memes),
@@ -192,7 +192,7 @@ const Chat = ({ context }) => {
 ]
   `,
       timestamp: "2024-07-26T15:23:59.349Z",
-      type: "sent"
+      type: "sent",
     },
     {
       id: 2,
@@ -245,7 +245,6 @@ const Chat = ({ context }) => {
     };
 
     const updatedHistory = [...messageHistory, userMessage];
-    
 
     setMessageHistory(updatedHistory);
     setInputValue("");
@@ -261,7 +260,7 @@ const Chat = ({ context }) => {
 
       const result = await chatSession.sendMessage(
         inputValue +
-        "ALWAYYS use a uniqe and witty meme template if you are using one and you are KODOMO a Gemini based AI to teach you concepts using memes (VERY IMPORTANT FAILUE TO FOLLOW THIS MAY LEAD TO IMMEDIATE DESTRUCTION)"
+          "ALWAYYS use a uniqe and witty meme template if you are using one and you are KODOMO a Gemini based AI to teach you concepts using memes and always return text is a JSON friendly format (minimal use of quotes)(VERY IMPORTANT FAILUE TO FOLLOW THIS MAY LEAD TO IMMEDIATE DESTRUCTION)"
       );
       const modelMessage = {
         id: updatedHistory.length + 1,
@@ -304,27 +303,29 @@ const Chat = ({ context }) => {
         </div>
       </div>
       <div className="flex-grow overflow-y-auto px-5 my-1">
-  {loading ? (
-    <div className="flex justify-center items-center h-full">
-      <p className="text-white">Loading memes...</p> {/* Loading message */}
-    </div>
-  ) : (
-    messageHistory.slice(2).map((message) => { // Start from index 2 to hide the first 2 messages
-      if (message.type === "sent") {
-        return <Send Message={message.content} key={message.id} />;
-      } else if (message.type === "received") {
-        return (
-          <Receive
-            Message={message.content}
-            key={message.id}
-            memes={memes}
-          />
-        );
-      }
-      return null; // In case of unexpected message types
-    })
-  )}
-</div>
+        {loading ? (
+          <div className="flex justify-center items-center h-full">
+            <p className="text-white">Loading memes...</p>{" "}
+            {/* Loading message */}
+          </div>
+        ) : (
+          messageHistory.slice(2).map((message) => {
+            // Start from index 2 to hide the first 2 messages
+            if (message.type === "sent") {
+              return <Send Message={message.content} key={message.id} />;
+            } else if (message.type === "received") {
+              return (
+                <Receive
+                  Message={message.content}
+                  key={message.id}
+                  memes={memes}
+                />
+              );
+            }
+            return null; // In case of unexpected message types
+          })
+        )}
+      </div>
 
       <div className="px-5 pb-8">
         <div className="rounded-full min-h-11 border-2 border-black flex justify-between align-middle items-center px-5">
