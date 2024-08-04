@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 import menu from "../assets/Home/menu.svg";
 import search from "../assets/Home/search.svg";
 import line from "../assets/Home/line.svg";
@@ -7,10 +11,6 @@ import Course from "./Course";
 import profile from "./../assets/Home/Buttons/profile.svg";
 import home from "./../assets/Home/Buttons/home.svg";
 import chat from "./../assets/Home/Buttons/chat.svg";
-import toast, { Toaster } from "react-hot-toast";
-import { getAuth } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
-import { getFirestore, doc, getDoc } from "firebase/firestore";
 import app from "../Api/Firebase";
 
 // Create a function to choose a random color from an array of colors
@@ -36,21 +36,28 @@ const Home = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchData = async () => {
-      const db = getFirestore(app);
-      const docRef = doc(db, "users", auth.currentUser.uid);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        setUserData(docSnap.data());
-        setIsLoading(false);
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const db = getFirestore(app);
+        const docRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          setUserData(docSnap.data());
+          setIsLoading(false);
+        } else {
+          console.log("No such document!");
+          toast.error("Enter your interests to get personalized courses");
+          window.location.href = "/interests";
+        }
       } else {
-        console.log("No such document!");
-        toast.error("Enter your interests to get personalized courses");
-        window.location.href = "/interests";
+        toast.error("Please login Again");
+        navigate("/signin");
       }
-    };
-    fetchData();
-  }, []);
+    });
+
+    // Cleanup subscription on unmount
+    return () => unsubscribe();
+  }, [auth, navigate]);
 
   const fetchData = (value) => {
     const result = userData.recommendedCourses.filter((course) => {

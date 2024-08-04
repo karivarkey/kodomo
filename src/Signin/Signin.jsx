@@ -14,6 +14,8 @@ import {
   GoogleAuthProvider,
   GithubAuthProvider,
   signInWithPopup,
+  setPersistence,
+  browserLocalPersistence,
 } from "firebase/auth";
 import app from "../Api/Firebase";
 
@@ -23,8 +25,24 @@ const Signin = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const handleSignIn = () => {
+    // Set the persistence to local
+    setPersistence(auth, browserLocalPersistence)
+      .then(() => {
+        // Proceed with sign-in
+        return signInWithEmailAndPassword(auth, email, password);
+      })
+      .then(() => {
+        navigate("/home");
+      })
+      .catch((error) => {
+        toast.error(`Error: ${error.message}`);
+      });
+  };
+
   return (
-    <div className="min-h-dvh max-h-dvh bg-primary flex justify-around flex-col realtive">
+    <div className="min-h-dvh max-h-dvh bg-primary flex justify-around flex-col relative">
       <img src={brain} className="absolute left-0 bottom-0 z-[-1]" />
       <div className="flex flex-col gap-3 py-3">
         <p className="text-black font-syne font-bold text-4xl [text-shadow:_2px_2px_0_rgb(229_130_190_/_100%)] text-center">
@@ -40,10 +58,8 @@ const Signin = () => {
           <input
             type="text"
             placeholder="Enter your email"
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
-            className="w-full border-2 pl-6  border-black rounded-md shadow-[5px_5px_0px_rgb(229_130_190_/_100%)] min-h-10"
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full border-2 pl-6 border-black rounded-md shadow-[5px_5px_0px_rgb(229_130_190_/_100%)] min-h-10"
           />
         </div>
         <div>
@@ -51,27 +67,12 @@ const Signin = () => {
           <input
             type="password"
             placeholder="Enter your password"
-            className="w-full border-2 pl-6  border-black rounded-md shadow-[5px_5px_0px_rgb(229_130_190_/_100%)] min-h-10"
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
+            className="w-full border-2 pl-6 border-black rounded-md shadow-[5px_5px_0px_rgb(229_130_190_/_100%)] min-h-10"
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
 
-        <button
-          className="flex justify-center"
-          onClick={() => {
-            toast
-              .promise(signInWithEmailAndPassword(auth, email, password), {
-                loading: "Signing in...",
-                success: "Signed in successfully",
-                error: (err) => `This just happened: ${err.toString()}`,
-              })
-              .then(() => {
-                navigate("/home");
-              });
-          }}
-        >
+        <button className="flex justify-center" onClick={handleSignIn}>
           <div className="flex bg-secondary gap-2 font-syne text-base border-2 border-black shadow-[5px_5px_0px_black] font-bold justify-center w-1/2 p-2 rounded-md hover:transition-all east in out hover:shadow-white">
             Sign In
             <img src={rightarrow} />
@@ -87,28 +88,13 @@ const Signin = () => {
             className="flex items-center justify-start gap-3 group"
             onClick={() => {
               const provider = new GoogleAuthProvider();
-              const auth = getAuth();
-              signInWithPopup(auth, provider)
+              setPersistence(auth, browserLocalPersistence)
+                .then(() => signInWithPopup(auth, provider))
                 .then((result) => {
-                  // This gives you a Google Access Token. You can use it to access the Google API.
-                  const credential =
-                    GoogleAuthProvider.credentialFromResult(result);
-                  const token = credential.accessToken;
-                  // The signed-in user info.
-                  const user = result.user;
-                  // IdP data available using getAdditionalUserInfo(result)
                   navigate("/home");
                 })
                 .catch((error) => {
-                  // Handle Errors here.
-                  const errorCode = error.code;
-                  const errorMessage = error.message;
-                  // The email of the user's account used.
-                  const email = error.customData.email;
-                  // The AuthCredential type that was used.
-                  const credential =
-                    GoogleAuthProvider.credentialFromError(error);
-                  // ...
+                  toast.error(`Error: ${error.message}`);
                 });
             }}
           >
@@ -138,14 +124,13 @@ const Signin = () => {
             className="flex items-center justify-start gap-3 group "
             onClick={() => {
               const provider = new GithubAuthProvider();
-              toast
-                .promise(signInWithPopup(auth, provider).then(), {
-                  loading: "Signing in...",
-                  success: "Signed in successfully",
-                  error: (err) => `This just happened: ${err.toString()}`,
-                })
+              setPersistence(auth, browserLocalPersistence)
+                .then(() => signInWithPopup(auth, provider))
                 .then(() => {
                   navigate("/home");
+                })
+                .catch((error) => {
+                  toast.error(`Error: ${error.message}`);
                 });
             }}
           >
@@ -161,12 +146,7 @@ const Signin = () => {
       </div>
       <div className="flex justify-center font-syne text-sm gap-2">
         <p className="font-semibold text-[#676262]">Don't have an account?</p>
-        <button
-          className="font-bold"
-          onClick={() => {
-            navigate("/signup");
-          }}
-        >
+        <button className="font-bold" onClick={() => navigate("/signup")}>
           Sign Up
         </button>
       </div>
