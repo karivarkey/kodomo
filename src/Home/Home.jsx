@@ -3,6 +3,8 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
+import axios from "axios";
+
 import menu from "../assets/Home/menu.svg";
 import search from "../assets/Home/search.svg";
 import line from "../assets/Home/line.svg";
@@ -14,22 +16,20 @@ import chat from "./../assets/Home/Buttons/chat.svg";
 import app from "../Api/Firebase";
 
 // Create a function to choose a random color from an array of colors
-const randomColor = () => {
-  const colors = [
-    "#BBD700",
-    "#7385DE",
-    "#FF5E8C",
-    "#FBA979",
-    "#39DBFF",
-    "#00FF75",
-    "#FFF500",
-  ];
-  return colors[Math.floor(Math.random() * colors.length)];
-};
+const colors = [
+  "#BBD700",
+  "#7385DE",
+  "#FF5E8C",
+  "#FBA979",
+  "#39DBFF",
+  "#00FF75",
+  "#FFF500",
+];
 
 const Home = () => {
   const auth = getAuth(app);
   const [userData, setUserData] = useState([]);
+  const [popular, setPopular] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [input, setInput] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -43,6 +43,24 @@ const Home = () => {
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
           setUserData(docSnap.data());
+          try {
+            const response = await axios.get(
+              "https://opensheet.elk.sh/1GEiuQarQBMnXMHh0THG47fwiNNi-PeAjER_DRq7zQcM/popular"
+            );
+
+            const valuesArray = response.data.map(
+              (course) => course["Top Courses"]
+            );
+
+            if (Array.isArray(valuesArray)) {
+              setPopular(valuesArray);
+            } else {
+              console.error("Expected an array, but got:", valuesArray);
+            }
+          } catch (error) {
+            console.error("Error fetching popular courses:", error);
+          }
+
           setIsLoading(false);
         } else {
           console.log("No such document!");
@@ -82,7 +100,7 @@ const Home = () => {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center min-h-dvh bg-primary">
+      <div className="flex justify-center items-center min-h-dvh bg-primary ">
         <div role="status">
           <svg
             aria-hidden="true"
@@ -107,7 +125,7 @@ const Home = () => {
   }
 
   return (
-    <div className="flex flex-col justify-between bg-primary min-h-dvh max-h-cvh ">
+    <div className="flex flex-col justify-between bg-primary min-h-dvh max-h-cvh gap-7">
       <div className="bg-[#FEF2E8] min-h-16 flex justify-between items-center border-b-2 border-black">
         <img src={menu} className="max-w-10 pl-3" />
         <div className="font-bold font-mont">KODDOMO</div>
@@ -147,7 +165,7 @@ const Home = () => {
       <div className="px-3 ">
         <div className="border-2 border-black rounded-md shadow-[0px_5px_0px_0px_#000000] pb-2">
           <div className="font-syne font-bold pl-4 text-xl ">
-            <p>Personalised just for you!</p>
+            <p>Popular courses of this week</p>
             <div className="font-bold text-xs">Stay Ahead of the Curve!</div>
           </div>
           <div className="flex justify-center w-full">
@@ -155,12 +173,12 @@ const Home = () => {
           </div>
           <div>
             <div className="flex p-3 gap-3 overflow-x-auto whitespace-nowrap scroll-smooth scrollbar-hide">
-              {userData.recommendedCourses.map((item, key) => (
+              {popular.map((item, key) => (
                 <Cards
                   key={key}
-                  title={item.courseName}
+                  title={item}
                   button={item.button}
-                  color={randomColor()}
+                  color={colors[(key % colors.length) + 1]}
                 />
               ))}
             </div>
@@ -170,9 +188,9 @@ const Home = () => {
       <div className="px-3">
         <div className="border-2 border-black rounded-md shadow-[0px_5px_0px_0px_#000000]">
           <div className="font-syne font-bold pl-4 text-xl">
-            <p>Enrolled Topics</p>
+            <p>Suggested Topics</p>
             <div className="font-bold text-xs">
-              Dive into Your Enrolled Courses
+              Dive into Courses Suggested by Kodomo
             </div>
           </div>
           <div className="flex justify-center w-full py-2">
@@ -185,7 +203,7 @@ const Home = () => {
                   key={key}
                   title={item.courseName}
                   button={item.button}
-                  color={randomColor()}
+                  color={colors[key % colors.length]}
                 />
               ))}
             </div>

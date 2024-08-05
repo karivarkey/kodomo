@@ -260,7 +260,7 @@ const Chat = ({ context }) => {
 
       const result = await chatSession.sendMessage(
         inputValue +
-          "ALWAYYS use a uniqe and witty meme template if you are using one and you are KODOMO a Gemini based AI to teach you concepts using memes and always return text is a JSON friendly format (minimal use of quotes)(VERY IMPORTANT FAILUE TO FOLLOW THIS MAY LEAD TO IMMEDIATE DESTRUCTION)"
+          "use a uniqe and witty meme template if you are using one and you are KODOMO a Gemini based AI to teach you concepts using memes and always return text is a JSON friendly format (minimal use of quotes)(VERY IMPORTANT FAILUE TO FOLLOW THIS MAY LEAD TO IMMEDIATE DESTRUCTION). Try to guide the conversation aound the given topic"
       );
       const modelMessage = {
         id: updatedHistory.length + 1,
