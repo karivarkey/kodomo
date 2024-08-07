@@ -11,6 +11,7 @@ const Receive = ({ Message, memes }) => {
     if (response.meme) {
       // Find the meme in the memes array
       const meme = memes.find((meme) => meme.id === response.memeId) || "";
+      console.log(meme);
 
       if (meme) {
         let url = meme.blank.replace(".png", "");

@@ -28,17 +28,23 @@ const Signin = () => {
 
   const handleSignIn = () => {
     // Set the persistence to local
-    setPersistence(auth, browserLocalPersistence)
-      .then(() => {
-        // Proceed with sign-in
-        return signInWithEmailAndPassword(auth, email, password);
-      })
-      .then(() => {
-        navigate("/home");
-      })
-      .catch((error) => {
-        toast.error(`Error: ${error.message}`);
-      });
+    toast.promise(
+      setPersistence(auth, browserLocalPersistence)
+        .then(() => {
+          // Proceed with sign-in
+          return signInWithEmailAndPassword(auth, email, password);
+        })
+        .then(() => {
+          navigate("/home");
+        }),
+      {
+        loading: "Logging you in...",
+        success: "Logged In",
+        error: (e) => {
+          `Error occured ${e}`;
+        },
+      }
+    );
   };
 
   return (
