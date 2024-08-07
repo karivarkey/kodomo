@@ -7,6 +7,7 @@ const Error = () => {
       <div className="flex flex-col">
         <p className="font-syne font-semibold text-md text-center px-8 flex flex-col">
           We're sorry but that's an unknown place Kodomo couldn't find it!
+          (Error : 404)
           <div>
             <a href="/" className="text-blue-900">
               Click here
