@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import back from "./../assets/Chat/back.svg";
-import profile from "./../assets/Chat/profile.svg";
+import profile from "./assets/talking.svg";
 import send from "./../assets/Chat/send.svg";
 import Send from "./Send";
 import Receive from "./Receive";
@@ -289,7 +289,9 @@ const Chat = ({ context }) => {
           >
             <img src={back} alt="Back" />
           </button>
-          <img src={profile} alt="Profile" />
+          <div className="flex items-center">
+            <img src={profile} alt="Profile" className="max-h-14" />
+          </div>
           <div className="font-syne font-medium text-2xl">
             {context}
             {context === "General Chat" ? (

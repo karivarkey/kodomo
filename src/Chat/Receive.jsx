@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import MarkdownRenderer from "./MarkdownRenderer";
-
+import gif from "./assets/speak.svg";
 const Receive = ({ Message, memes }) => {
   // Parse the incoming message
   const response = JSON.parse(Message);
@@ -47,18 +47,19 @@ const Receive = ({ Message, memes }) => {
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <div className="bg-[#E582BE] p-2 max-w-lg text-wrap text-md ml-3 rounded-md border-2 border-black shadow-[-2px_2px_0px_0px_#000000] break-words overflow-wrap-anywhere">
-          <img src={url} alt="Meme" />
-        </div>
-      </motion.div>
-      <motion.div
-        className="flex justify-start my-1 w-fit"
-        initial={{ opacity: 0, x: -50 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <div className="bg-[#E582BE] p-2 max-w-lg text-wrap text-md ml-3 rounded-md border-2 border-black shadow-[-2px_2px_0px_0px_#000000] break-words overflow-wrap-anywhere">
-          <MarkdownRenderer markdown={response.response} />
+        <div>
+          <div className="flex items-end space-x-3">
+            <img src={gif} alt="" className="max-h-12" />
+            <div>
+              <div className="bg-[#E582BE] p-2 max-w-lg text-wrap text-md ml-3 rounded-md border-2 border-black shadow-[-2px_2px_0px_0px_#000000] break-words overflow-wrap-anywhere">
+                <img src={url} alt="Meme" />
+              </div>
+
+              <div className="bg-[#E582BE] p-3 max-w-lg text-md rounded-md border-2 border-black shadow-[-2px_2px_0px_0px_#000000] break-words overflow-wrap-anywhere">
+                <MarkdownRenderer markdown={response.response} />
+              </div>
+            </div>
+          </div>
         </div>
       </motion.div>
     </>
