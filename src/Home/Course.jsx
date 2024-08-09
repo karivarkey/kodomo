@@ -1,6 +1,8 @@
 import React from "react";
 import next from "./../assets/Home/Buttons/next.svg";
+import { useNavigate } from "react-router-dom";
 const Cards = ({ title, color }) => {
+  const navigate = useNavigate();
   return (
     <div
       style={{
@@ -15,9 +17,14 @@ const Cards = ({ title, color }) => {
         </div>
       </div>
 
-      <div className="flex  items-center flex-col justify-center w-1/4   ">
+      <button
+        className="flex  items-center flex-col justify-center w-1/4   "
+        onClick={() => {
+          navigate("/home/chat", { state: { context: title } });
+        }}
+      >
         <img src={next} />
-      </div>
+      </button>
     </div>
   );
 };

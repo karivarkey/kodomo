@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import back from "./../assets/Chat/back.svg";
-import profile from "./../assets/Chat/profile.svg";
+import profile from "./assets/talking.svg";
 import send from "./../assets/Chat/send.svg";
 import Send from "./Send";
 import Receive from "./Receive";
@@ -28,19 +28,21 @@ const generationConfig = {
 const Chat = ({ context }) => {
   const location = useLocation();
 
-   context = location.state.context || "Chat";
-  console.log(context)
-   let history  = [
+  context = location.state.context || "Chat";
+  let history = [
     {
       id: 1,
       sender: "User",
       content: `
-  You are an AI named Kodomo designed to help people learn complicated concepts using memes. You need to maintain a funny attitude when asked questions. You should reply with accurate data and meme by filling out the following format JSON.
+  You are an AI named Kodomo designed to help people learn complicated concepts using memes. You need to maintain a funny attitude and give the answer to the question by filling out the following format JSON,
+  ALWAYS STICK TO THE JSON FORMAT
   {
     "meme": (boolen on weather the reply contains a meme or not) ,
     "memeId": (memeid from below given list of memes),
     "memeCompoenent": [(The lines on the meme , each meme template you choose have different number of lines)],
-    "response": (Your answer to the users question)
+    "code":(Use this as code blocks if you are giving code give null if no code),
+    "response": (Your answer to the users question do not end with here's your code return it in plain text format),
+    
 }
     The available memes are : 
 [
@@ -192,7 +194,7 @@ const Chat = ({ context }) => {
 ]
   `,
       timestamp: "2024-07-26T15:23:59.349Z",
-      type: "sent"
+      type: "sent",
     },
     {
       id: 2,
@@ -222,6 +224,7 @@ const Chat = ({ context }) => {
       } catch (error) {
         console.error("Error fetching memes:", error);
       } finally {
+        90;
         setLoading(false); // Set loading to false after data is fetched
       }
     };
@@ -245,7 +248,6 @@ const Chat = ({ context }) => {
     };
 
     const updatedHistory = [...messageHistory, userMessage];
-    
 
     setMessageHistory(updatedHistory);
     setInputValue("");
@@ -261,12 +263,12 @@ const Chat = ({ context }) => {
 
       const result = await chatSession.sendMessage(
         inputValue +
-        "ALWAYYS use a uniqe and witty meme template if you are using one and you are KODOMO a Gemini based AI to teach you concepts using memes (VERY IMPORTANT FAILUE TO FOLLOW THIS MAY LEAD TO IMMEDIATE DESTRUCTION)"
+          "use a uniqe and witty meme template if you are using one and you are KODOMO a Gemini based AI to teach you concepts using memes and always return text is a JSON friendly format (minimal use of quotes)(VERY IMPORTANT FAILUE TO FOLLOW THIS MAY LEAD TO IMMEDIATE DESTRUCTION). Try to guide the conversation aound the given topic"
       );
       const modelMessage = {
         id: updatedHistory.length + 1,
         sender: "Kodomo",
-        content: result.response.text(),
+        content: await result.response.text(),
         timestamp: new Date().toISOString(),
         type: "received",
       };
@@ -290,7 +292,9 @@ const Chat = ({ context }) => {
           >
             <img src={back} alt="Back" />
           </button>
-          <img src={profile} alt="Profile" />
+          <div className="flex items-center">
+            <img src={profile} alt="Profile" className="max-h-14" />
+          </div>
           <div className="font-syne font-medium text-2xl">
             {context}
             {context === "General Chat" ? (
@@ -304,27 +308,29 @@ const Chat = ({ context }) => {
         </div>
       </div>
       <div className="flex-grow overflow-y-auto px-5 my-1">
-  {loading ? (
-    <div className="flex justify-center items-center h-full">
-      <p className="text-white">Loading memes...</p> {/* Loading message */}
-    </div>
-  ) : (
-    messageHistory.slice(2).map((message) => { // Start from index 2 to hide the first 2 messages
-      if (message.type === "sent") {
-        return <Send Message={message.content} key={message.id} />;
-      } else if (message.type === "received") {
-        return (
-          <Receive
-            Message={message.content}
-            key={message.id}
-            memes={memes}
-          />
-        );
-      }
-      return null; // In case of unexpected message types
-    })
-  )}
-</div>
+        {loading ? (
+          <div className="flex justify-center items-center h-full">
+            <p className="text-white">Loading memes...</p>{" "}
+            {/* Loading message */}
+          </div>
+        ) : (
+          messageHistory.slice(2).map((message) => {
+            // Start from index 2 to hide the first 2 messages
+            if (message.type === "sent") {
+              return <Send Message={message.content} key={message.id} />;
+            } else if (message.type === "received") {
+              return (
+                <Receive
+                  Message={message.content}
+                  key={message.id}
+                  memes={memes}
+                />
+              );
+            }
+            return null; // In case of unexpected message types
+          })
+        )}
+      </div>
 
       <div className="px-5 pb-8">
         <div className="rounded-full min-h-11 border-2 border-black flex justify-between align-middle items-center px-5">
