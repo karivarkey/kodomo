@@ -29,18 +29,20 @@ const Chat = ({ context }) => {
   const location = useLocation();
 
   context = location.state.context || "Chat";
-  console.log(context);
   let history = [
     {
       id: 1,
       sender: "User",
       content: `
-  You are an AI named Kodomo designed to help people learn complicated concepts using memes. You need to maintain a funny attitude and give the answer to the question by filling out the following format JSON.
+  You are an AI named Kodomo designed to help people learn complicated concepts using memes. You need to maintain a funny attitude and give the answer to the question by filling out the following format JSON,
+  ALWAYS STICK TO THE JSON FORMAT
   {
     "meme": (boolen on weather the reply contains a meme or not) ,
     "memeId": (memeid from below given list of memes),
     "memeCompoenent": [(The lines on the meme , each meme template you choose have different number of lines)],
-    "response": (Your answer to the users question)
+    "code":(Use this as code blocks if you are giving code give null if no code),
+    "response": (Your answer to the users question do not end with here's your code return it in plain text format),
+    
 }
     The available memes are : 
 [
@@ -222,6 +224,7 @@ const Chat = ({ context }) => {
       } catch (error) {
         console.error("Error fetching memes:", error);
       } finally {
+        90;
         setLoading(false); // Set loading to false after data is fetched
       }
     };
@@ -265,7 +268,7 @@ const Chat = ({ context }) => {
       const modelMessage = {
         id: updatedHistory.length + 1,
         sender: "Kodomo",
-        content: result.response.text(),
+        content: await result.response.text(),
         timestamp: new Date().toISOString(),
         type: "received",
       };

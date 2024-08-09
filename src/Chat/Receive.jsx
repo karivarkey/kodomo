@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import MarkdownRenderer from "./MarkdownRenderer";
+import ReactMarkdown from "react-markdown";
 import gif from "./assets/speak.svg";
 const Receive = ({ Message, memes }) => {
   // Parse the incoming message
+  console.log(Message);
   const response = JSON.parse(Message);
   const [url, setUrl] = useState("");
 
@@ -11,7 +13,6 @@ const Receive = ({ Message, memes }) => {
     if (response.meme) {
       // Find the meme in the memes array
       const meme = memes.find((meme) => meme.id === response.memeId) || "";
-      console.log(meme);
 
       if (meme) {
         let url = meme.blank.replace(".png", "");
@@ -54,9 +55,13 @@ const Receive = ({ Message, memes }) => {
               <div className="bg-[#E582BE] p-2 max-w-lg text-wrap text-md ml-3 rounded-md border-2 border-black shadow-[-2px_2px_0px_0px_#000000] break-words overflow-wrap-anywhere">
                 <img src={url} alt="Meme" />
               </div>
-
-              <div className="bg-[#E582BE] p-3 max-w-lg text-md rounded-md border-2 border-black shadow-[-2px_2px_0px_0px_#000000] break-words overflow-wrap-anywhere">
-                <MarkdownRenderer markdown={response.response} />
+              <div className="bg-[#E582BE] p-3 max-w-lg text-md rounded-md border-2 text-wrap border-black shadow-[-2px_2px_0px_0px_#000000] break-words overflow-wrap-anywhere w-full">
+                <ReactMarkdown>{response.response}</ReactMarkdown>
+              </div>
+              <div className="bg-[#E582BE] p-3 max-w-lg text-xs  rounded-md border-2 text-wrap border-black shadow-[-2px_2px_0px_0px_#000000] break-words overflow-wrap-anywhere w-full">
+                <pre>
+                  <code>{response.code}</code>
+                </pre>
               </div>
             </div>
           </div>
