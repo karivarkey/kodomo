@@ -128,7 +128,7 @@ const Home = () => {
     <div className="flex flex-col justify-between bg-primary min-h-dvh max-h-cvh gap-7">
       <div className="bg-[#FEF2E8] min-h-16 flex justify-between items-center border-b-2 border-black">
         <img src={menu} className="max-w-10 pl-3" />
-        <div className="font-bold font-mont">KODDOMO</div>
+        <div className="font-bold font-mont">KODOMO</div>
         <div></div>
       </div>
       <div className="px-3 relative">
@@ -165,7 +165,7 @@ const Home = () => {
       <div className="px-3 ">
         <div className="border-2 border-black rounded-md shadow-[0px_5px_0px_0px_#000000] pb-2">
           <div className="font-syne font-bold pl-4 text-xl ">
-            <p>Popular courses of this week</p>
+            <p>Popular courses this week</p>
             <div className="font-bold text-xs">Stay Ahead of the Curve!</div>
           </div>
           <div className="flex justify-center w-full">
