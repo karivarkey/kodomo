@@ -60,95 +60,64 @@ const Interests = () => {
   const [value, setValue] = useState("");
   console.log(interests);
   const data = {
-    "Science & Discovery": [
-      "Space Exploration",
-      "Environmental Conservation",
-      "Medical Innovations",
-      "Technology Trends",
-      "Science Experiments",
-      "Natural Wonders",
+    "STEM & Innovation": [
+      "🔬 Science Projects & Experiments",
+      "🌌 Space & Astronomy",
+      "💻 Coding & App Development",
+      "🤖 AI & Robotics",
+      "🔒 Cybersecurity Basics",
+      "🔋 Renewable Energy & Sustainability",
     ],
-    "Arts & Culture": [
-      "Literature & Poetry",
-      "Classical Music",
-      "Visual Arts",
-      "Theater & Drama",
-      "Cultural History",
-      "Film Studies",
+    "Tech & Digital Culture": [
+      "📱 Gadgets & Tech Trends",
+      "🕹️ Game Development & Design",
+      "🌐 Internet Safety & Cyber Hygiene",
+      "🎮 Esports & Online Gaming",
+      "🎥 Digital Content Creation",
+      "🧠 AI Memes & Tech Humor",
     ],
-    "Technology & Innovation": [
-      "Coding & Development",
-      "AI & Robotics",
-      "Cybersecurity",
-      "Gadgets & Tech News",
-      "Startups & Entrepreneurship",
-      "Blockchain & Cryptocurrencies",
+    "Arts & Creativity": [
+      "🎨 Digital Art & Graphic Design",
+      "📸 Photography & Visual Storytelling",
+      "🎵 Music Production & Beatmaking",
+      "📝 Creative Writing & Blogging",
+      "🎭 Performing Arts & Drama",
+      "🎬 Film Studies & Critique",
     ],
-    "History & Society": [
-      "Ancient Civilizations",
-      "Modern History",
-      "Social Movements",
-      "Political Systems",
-      "Anthropology",
-      "Economics",
+    "Social Studies & Humanities": [
+      "🌍 World History & Ancient Civilizations",
+      "🗳️ Modern Political Systems & Democracy",
+      "⚖️ Social Justice & Human Rights",
+      "🏛️ Civic Education & Community Involvement",
+      "🌐 Global Cultures & Traditions",
+      "📚 Classic & Modern Literature",
     ],
-    "Personal Development": [
-      "Mindfulness & Meditation",
-      "Leadership Skills",
-      "Public Speaking",
-      "Critical Thinking",
-      "Time Management",
-      "Emotional Intelligence",
+    "Life Skills & Personal Growth": [
+      "🧠 Critical Thinking & Problem Solving",
+      "💡 Leadership & Teamwork",
+      "🗣️ Public Speaking & Communication",
+      "⏰ Time Management & Productivity",
+      "😌 Mindfulness & Stress Management",
+      "💰 Financial Literacy & Budgeting",
     ],
-    "Fun & Interactive": [
-      "Memes & Internet Culture",
-      "Puzzles & Brain Teasers",
-      "Trivia & Quizzes",
-      "DIY Projects",
-      "Virtual Tours",
-      "Interactive Science",
+    "Health & Wellbeing": [
+      "🥗 Nutrition & Healthy Eating",
+      "💪 Fitness & Exercise Routines",
+      "🧘 Mental Health & Wellness",
+      "🧬 Human Biology & Anatomy",
+      "🚴 Outdoor Activities & Sports",
+      "🏥 First Aid & Emergency Skills",
     ],
-    "Health & Wellness": [
-      "Nutrition & Diet",
-      "Mental Health",
-      "Fitness & Exercise",
-      "Medical Research",
-      "Alternative Medicine",
-      "Public Health",
-    ],
-    "Literature & Language": [
-      "Classic Literature",
-      "Modern Novels",
-      "Language Learning",
-      "Writing Skills",
-      "Linguistics",
-      "Storytelling",
-    ],
-    "Business & Economics": [
-      "Marketing Strategies",
-      "Financial Literacy",
-      "Investment & Trading",
-      "Business Ethics",
-      "Management Skills",
-      "Global Economics",
-    ],
-    "Environmental Studies": [
-      "Climate Change",
-      "Sustainable Living",
-      "Ecology",
-      "Marine Biology",
-      "Renewable Energy",
-      "Wildlife Conservation",
-    ],
-    "Creative Arts": [
-      "Digital Art",
-      "Photography",
-      "Music Production",
-      "Creative Writing",
-      "Graphic Design",
-      "Performing Arts",
+    "Fun & Interactive Learning": [
+      "😂 Memes & Internet Culture",
+      "🧩 Puzzles & Brain Games",
+      "🎲 Trivia & Quizzes",
+      "🎨 DIY & Creative Projects",
+      "🌎 Virtual Field Trips",
+      "🔬 Interactive Science Experiments",
     ],
   };
+
   const navigate = useNavigate();
 
   async function wrtieData() {
@@ -203,7 +172,7 @@ const Interests = () => {
             </p>
           </div>
           <div>
-            <div className="py-4 flex gap-4 flex-col overflow-scroll">
+            <div className="py-4 flex gap-4 flex-col overflow-scroll ">
               {Object.keys(data).map((key, index) => (
                 <IneterestCard
                   key={index}
@@ -245,7 +214,7 @@ const Interests = () => {
           </div>
           <div className="bg-[#FFDADA] rounded-xl min-h-32 border-2 border-black flex flex-col pb-5">
             <p className="font-mont font-black text-base p-3">CURRENT LIST</p>
-            <div className="flex flex-wrap gap-2 px-3">
+            <div className="flex flex-wrap justify-start  gap-2 px-3">
               {interests.length > 0 ? (
                 interests.map((interest, index) => (
                   <button
