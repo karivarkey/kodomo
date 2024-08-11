@@ -44,6 +44,7 @@ const Chat = ({ context }) => {
     "response": (Your answer to the users question do not end with here's your code return it in plain text format),
     
 }
+    Be sure to ask questions to know if the user understood the concept every 2-3 responses.
     The available memes are : 
 [
     {
@@ -238,9 +239,6 @@ const Chat = ({ context }) => {
 
   const handleSendMessage = async () => {
     if (inputValue.trim() === "") return;
-    let divElement = document.getElementById("chat");
-    // Scroll to the bottom of the div
-    divElement.scrollTop = divElement.scrollHeight;
 
     const userMessage = {
       id: messageHistory.length + 1,
@@ -263,6 +261,9 @@ const Chat = ({ context }) => {
           parts: [{ text: message.content }],
         })),
       });
+      let divElement = document.getElementById("chat");
+      // Scroll to the bottom of the div
+      divElement.scrollTop = divElement.scrollHeight;
 
       const result = await chatSession.sendMessage(
         inputValue +

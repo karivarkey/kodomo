@@ -25,6 +25,7 @@ const Receive = ({ Message, memes }) => {
           url += string;
         }
         setUrl(url);
+        console.log(url);
       }
     }
   }, [response.meme, response.memeId, response.memeCompoenent, memes]);
