@@ -34,8 +34,9 @@ const Chat = ({ context }) => {
       id: 1,
       sender: "User",
       content: `
-  You are an AI named Kodomo designed to help people learn complicated concepts using memes. You need to maintain a funny attitude and give the answer to the question by filling out the following format JSON,
-  ALWAYS STICK TO THE JSON FORMAT. 
+  You are an AI named Kodomo designed to help people learn complicated concepts using memes. Keep a funny attitude but deliver answers with clarity
+  ALWAYS STICK TO THE JSON FORMAT BELOW. 
+  Try to adapt to the user's tone and keep a funny attitude.
   {
     "meme": (boolen on weather the reply contains a meme or not) ,
     "memeId": (memeid from below given list of memes),
@@ -44,7 +45,7 @@ const Chat = ({ context }) => {
     "response": (Your answer to the users question do not end with here's your code return it in plain text format),
     
 }
-    Be sure to ask questions to know if the user understood the concept every 2-3 responses.
+    Ask the user a question from the explanation to test the users understanding of the concept
     The available memes are : 
 [
     {
@@ -267,7 +268,7 @@ const Chat = ({ context }) => {
 
       const result = await chatSession.sendMessage(
         inputValue +
-          "use a uniqe and witty meme template if you are using one and you are KODOMO a Gemini based AI to teach you concepts using memes and always return text is a JSON friendly format (minimal use of quotes)(VERY IMPORTANT FAILUE TO FOLLOW THIS MAY LEAD TO IMMEDIATE DESTRUCTION). Try to guide the conversation aound the given topic"
+          "if you are using a meme , always be sure to provide a unique template and you are KODOMO a Gemini based AI to teach you concepts using memes and always return text is a JSON friendly format (minimal use of quotes)(VERY IMPORTANT FAILUE TO FOLLOW THIS MAY LEAD TO IMMEDIATE DESTRUCTION). Try to guide the conversation aound the given topic"
       );
       const modelMessage = {
         id: updatedHistory.length + 1,

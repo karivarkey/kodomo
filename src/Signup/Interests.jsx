@@ -60,95 +60,64 @@ const Interests = () => {
   const [value, setValue] = useState("");
   console.log(interests);
   const data = {
-    "Science & Discovery": [
-      "Space Exploration",
-      "Environmental Conservation",
-      "Medical Innovations",
-      "Technology Trends",
-      "Science Experiments",
-      "Natural Wonders",
+    "STEM & Innovation": [
+      "🔬 Science Projects & Experiments",
+      "🌌 Space & Astronomy",
+      "💻 Coding & App Development",
+      "🤖 AI & Robotics",
+      "🔒 Cybersecurity Basics",
+      "🔋 Renewable Energy & Sustainability",
     ],
-    "Arts & Culture": [
-      "Literature & Poetry",
-      "Classical Music",
-      "Visual Arts",
-      "Theater & Drama",
-      "Cultural History",
-      "Film Studies",
+    "Tech & Digital Culture": [
+      "📱 Gadgets & Tech Trends",
+      "🕹️ Game Development & Design",
+      "🌐 Internet Safety & Cyber Hygiene",
+      "🎮 Esports & Online Gaming",
+      "🎥 Digital Content Creation",
+      "🧠 AI Memes & Tech Humor",
     ],
-    "Technology & Innovation": [
-      "Coding & Development",
-      "AI & Robotics",
-      "Cybersecurity",
-      "Gadgets & Tech News",
-      "Startups & Entrepreneurship",
-      "Blockchain & Cryptocurrencies",
+    "Arts & Creativity": [
+      "🎨 Digital Art & Graphic Design",
+      "📸 Photography & Visual Storytelling",
+      "🎵 Music Production & Beatmaking",
+      "📝 Creative Writing & Blogging",
+      "🎭 Performing Arts & Drama",
+      "🎬 Film Studies & Critique",
     ],
-    "History & Society": [
-      "Ancient Civilizations",
-      "Modern History",
-      "Social Movements",
-      "Political Systems",
-      "Anthropology",
-      "Economics",
+    "Social Studies & Humanities": [
+      "🌍 World History & Ancient Civilizations",
+      "🗳️ Modern Political Systems & Democracy",
+      "⚖️ Social Justice & Human Rights",
+      "🏛️ Civic Education & Community Involvement",
+      "🌐 Global Cultures & Traditions",
+      "📚 Classic & Modern Literature",
     ],
-    "Personal Development": [
-      "Mindfulness & Meditation",
-      "Leadership Skills",
-      "Public Speaking",
-      "Critical Thinking",
-      "Time Management",
-      "Emotional Intelligence",
+    "Life Skills & Personal Growth": [
+      "🧠 Critical Thinking & Problem Solving",
+      "💡 Leadership & Teamwork",
+      "🗣️ Public Speaking & Communication",
+      "⏰ Time Management & Productivity",
+      "😌 Mindfulness & Stress Management",
+      "💰 Financial Literacy & Budgeting",
     ],
-    "Fun & Interactive": [
-      "Memes & Internet Culture",
-      "Puzzles & Brain Teasers",
-      "Trivia & Quizzes",
-      "DIY Projects",
-      "Virtual Tours",
-      "Interactive Science",
+    "Health & Wellbeing": [
+      "🥗 Nutrition & Healthy Eating",
+      "💪 Fitness & Exercise Routines",
+      "🧘 Mental Health & Wellness",
+      "🧬 Human Biology & Anatomy",
+      "🚴 Outdoor Activities & Sports",
+      "🏥 First Aid & Emergency Skills",
     ],
-    "Health & Wellness": [
-      "Nutrition & Diet",
-      "Mental Health",
-      "Fitness & Exercise",
-      "Medical Research",
-      "Alternative Medicine",
-      "Public Health",
-    ],
-    "Literature & Language": [
-      "Classic Literature",
-      "Modern Novels",
-      "Language Learning",
-      "Writing Skills",
-      "Linguistics",
-      "Storytelling",
-    ],
-    "Business & Economics": [
-      "Marketing Strategies",
-      "Financial Literacy",
-      "Investment & Trading",
-      "Business Ethics",
-      "Management Skills",
-      "Global Economics",
-    ],
-    "Environmental Studies": [
-      "Climate Change",
-      "Sustainable Living",
-      "Ecology",
-      "Marine Biology",
-      "Renewable Energy",
-      "Wildlife Conservation",
-    ],
-    "Creative Arts": [
-      "Digital Art",
-      "Photography",
-      "Music Production",
-      "Creative Writing",
-      "Graphic Design",
-      "Performing Arts",
+    "Fun & Interactive Learning": [
+      "😂 Memes & Internet Culture",
+      "🧩 Puzzles & Brain Games",
+      "🎲 Trivia & Quizzes",
+      "🎨 DIY & Creative Projects",
+      "🌎 Virtual Field Trips",
+      "🔬 Interactive Science Experiments",
     ],
   };
+
   const navigate = useNavigate();
 
   async function wrtieData() {
@@ -156,29 +125,39 @@ const Interests = () => {
 
     const auth = getAuth(app);
 
-    toast
-      .promise(createCourses(interests), {
-        loading: "Tuning Kodomo to your interests...",
-        success: "Kodomo is ready for you!",
-        error: (err) => `This just happened: ${err.toString()}`,
-      })
-      .then((result) => {
-        const courses = JSON.parse(result);
-        const data = {
-          name: auth.currentUser.displayName,
-          userInterest: interests,
-          userid: auth.currentUser.uid,
-          recommendedCourses: courses,
-        };
-        setDoc(doc(db, "users", auth.currentUser.uid), data);
-        navigate("/home");
-      });
+    if (interests.length == 0) {
+      toast.error("Please choose at least one interst");
+    } else {
+      toast
+        .promise(createCourses(interests), {
+          loading: "Tuning Kodomo to your interests...",
+          success: "Kodomo is ready for you!",
+          error: (err) => `This just happened: ${err.toString()}`,
+        })
+        .then((result) => {
+          const courses = JSON.parse(result);
+          const data = {
+            name: auth.currentUser.displayName,
+            userInterest: interests,
+            userid: auth.currentUser.uid,
+            recommendedCourses: courses,
+          };
+          setDoc(doc(db, "users", auth.currentUser.uid), data);
+          navigate("/home");
+        });
+    }
   }
 
   return (
     <div className="min-h-dvh bg-primary flex flex-col">
       <div className="p-5">
-        <img src={back} className="max-h-8 " />
+        <button
+          onClick={() => {
+            navigate(-1);
+          }}
+        >
+          <img src={back} className="max-h-8 " />
+        </button>
         <div className="flex flex-col gap-2">
           <p className="text-black font-syne font-bold text-2xl [text-shadow:_2px_2px_0_rgb(229_130_190_/_100%)] text-left">
             WHAT'S YOUR FLASH?
@@ -193,7 +172,7 @@ const Interests = () => {
             </p>
           </div>
           <div>
-            <div className="py-4 flex gap-4 flex-col overflow-scroll">
+            <div className="py-4 flex gap-4 flex-col overflow-scroll ">
               {Object.keys(data).map((key, index) => (
                 <IneterestCard
                   key={index}
@@ -216,21 +195,43 @@ const Interests = () => {
                 placeholder="What are you interested in?"
                 className="bg-primary pl-3 font-mont w-full border-2 border-black rounded-md"
                 onChange={(e) => setValue(e.target.value)}
+                value={value}
               />
 
               <button
                 className="
-            bg-secondary w-1/3 text-center rounded-md border-2 border-black shadow-[0px_5px_0px_0px_#000000] font-mont font-black"
+    bg-secondary w-1/3 text-center rounded-md border-2 border-black shadow-[0px_5px_0px_0px_#000000] font-mont font-black"
                 onClick={() => {
-                  if (interests.includes(value)) {
-                    setInterests(interests.filter((i) => i !== value));
-                  } else {
+                  if (value.trim() !== "" && !interests.includes(value)) {
                     setInterests([...interests, value]);
                   }
+                  setValue(""); // Clear the input box after adding the interest
                 }}
               >
                 ADD
               </button>
+            </div>
+          </div>
+          <div className="bg-[#FFDADA] rounded-xl min-h-32 border-2 border-black flex flex-col pb-5">
+            <p className="font-mont font-black text-base p-3">CURRENT LIST</p>
+            <div className="flex flex-wrap justify-start  gap-2 px-3">
+              {interests.length > 0 ? (
+                interests.map((interest, index) => (
+                  <button
+                    key={index}
+                    className="bg-secondary text-black font-medium px-3 py-1 rounded-full text-sm border-2 border-black shadow-[0px_5px_0px_0px_#ffffff]"
+                    onClick={() => {
+                      setInterests(interests.filter((i) => i !== interest));
+                    }}
+                  >
+                    {interest}
+                  </button>
+                ))
+              ) : (
+                <p className="text-black text-center w-full font-semibold text-lg">
+                  Uh oh! No interests added yet.
+                </p>
+              )}
             </div>
           </div>
         </div>
@@ -253,7 +254,7 @@ const Interests = () => {
         toastOptions={{
           // Define default options
           className: "",
-          duration: 5000,
+          duration: 1500,
           style: {
             background: "#E582BE",
             color: "#FAEDCD",
@@ -261,7 +262,7 @@ const Interests = () => {
 
           // Default options for specific types
           success: {
-            duration: 3000,
+            duration: 2000,
             theme: {
               primary: "green",
               secondary: "black",
