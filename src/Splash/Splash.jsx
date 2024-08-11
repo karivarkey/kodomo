@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import phone from "./../assets/splash/phone.svg";
 import DesktopWarningPopup from "./DesktopWarningPopup";
+import { Toaster } from "react-hot-toast";
 
 const Splash = () => {
   const [isDesktop, setIsDesktop] = useState(window.innerWidth > 768);
@@ -47,6 +48,27 @@ const Splash = () => {
           </button>
         </div>
       </div>
+      <Toaster
+        position="bottom-center"
+        gutter={8}
+        containerClassName=""
+        containerStyle={{}}
+        toastOptions={{
+          className: "",
+          duration: 5000,
+          style: {
+            background: "#E582BE",
+            color: "#FAEDCD",
+          },
+          success: {
+            duration: 3000,
+            theme: {
+              primary: "green",
+              secondary: "black",
+            },
+          },
+        }}
+      />
     </div>
   );
 };

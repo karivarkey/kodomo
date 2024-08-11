@@ -128,7 +128,7 @@ const Home = () => {
     <div className="flex flex-col justify-between bg-primary min-h-dvh max-h-cvh gap-7">
       <div className="bg-[#FEF2E8] min-h-16 flex justify-between items-center border-b-2 border-black">
         <img src={menu} className="max-w-10 pl-3" />
-        <div className="font-bold font-mont">KODDOMO</div>
+        <div className="font-bold font-mont">KODOMO</div>
         <div></div>
       </div>
       <div className="px-3 relative">
@@ -165,7 +165,7 @@ const Home = () => {
       <div className="px-3 ">
         <div className="border-2 border-black rounded-md shadow-[0px_5px_0px_0px_#000000] pb-2">
           <div className="font-syne font-bold pl-4 text-xl ">
-            <p>Popular courses of this week</p>
+            <p>Popular courses this week</p>
             <div className="font-bold text-xs">Stay Ahead of the Curve!</div>
           </div>
           <div className="flex justify-center w-full">
@@ -185,7 +185,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div className="px-3">
+      <div className="px-3 pb-10 mp-10">
         <div className="border-2 border-black rounded-md shadow-[0px_5px_0px_0px_#000000]">
           <div className="font-syne font-bold pl-4 text-xl">
             <p>Suggested Topics</p>
@@ -196,8 +196,8 @@ const Home = () => {
           <div className="flex justify-center w-full py-2">
             <img src={line} />
           </div>
-          <div className="flex flex-col max-h-96 overflow-y-auto px-2 py-2 scroll-smooth scrollbar-hide">
-            <div className="flex flex-col p-3 gap-3 ">
+          <div className="flex flex-col max-h-96 overflow-y-auto px-2 py-2 scroll-smooth scrollbar-hide pb-10">
+            <div className="flex flex-col p-3 gap-3 rounded">
               {userData.recommendedCourses.map((item, key) => (
                 <Course
                   key={key}
@@ -209,24 +209,33 @@ const Home = () => {
             </div>
           </div>
         </div>
-      </div>
-      <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 inline-flex 0 mx-auto bg-primary border-2 border-black w-11/12 rounded-full h-16 shadow-[3px_5px_0px_0px_#000000] justify-around">
-        <div className="flex justify-center items-center">
-          <img src={profile} />
-        </div>
-        <div className="flex justify-center items-center">
-          <img src={home} />
-        </div>
-        <div className="flex justify-center items-center">
+        <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 inline-flex 0 mx-auto bg-primary border-2 border-black w-11/12 rounded-full h-16 shadow-[3px_5px_0px_0px_#000000] justify-around">
           <button
             onClick={() => {
-              navigate("/home/chat", { state: { context: "General Chat" } });
+              navigate("/home/profile");
             }}
           >
-            <img src={chat} />
+            <div className="flex justify-center items-center">
+              <img src={profile} />
+            </div>
           </button>
+          <div className="flex flex-col justify-center items-center ">
+            <img src={home} />
+            <div className="w-1/2 h-1 mt-2 bg-black"></div>
+          </div>
+
+          <div className="flex justify-center items-center">
+            <button
+              onClick={() => {
+                navigate("/home/chat", { state: { context: "General Chat" } });
+              }}
+            >
+              <img src={chat} />
+            </button>
+          </div>
         </div>
       </div>
+
       <Toaster
         position="bottom-center"
         gutter={8}
