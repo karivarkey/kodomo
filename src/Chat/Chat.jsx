@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import back from "./../assets/Chat/back.svg";
 import profile from "./assets/talking.svg";
@@ -27,7 +27,7 @@ const generationConfig = {
 
 const Chat = ({ context }) => {
   const location = useLocation();
-
+  const chatList = useRef(null);
   context = location.state.context || "Chat";
   let history = [
     {
@@ -35,7 +35,7 @@ const Chat = ({ context }) => {
       sender: "User",
       content: `
   You are an AI named Kodomo designed to help people learn complicated concepts using memes. You need to maintain a funny attitude and give the answer to the question by filling out the following format JSON,
-  ALWAYS STICK TO THE JSON FORMAT
+  ALWAYS STICK TO THE JSON FORMAT. 
   {
     "meme": (boolen on weather the reply contains a meme or not) ,
     "memeId": (memeid from below given list of memes),
@@ -238,6 +238,9 @@ const Chat = ({ context }) => {
 
   const handleSendMessage = async () => {
     if (inputValue.trim() === "") return;
+    let divElement = document.getElementById("chat");
+    // Scroll to the bottom of the div
+    divElement.scrollTop = divElement.scrollHeight;
 
     const userMessage = {
       id: messageHistory.length + 1,
@@ -274,6 +277,11 @@ const Chat = ({ context }) => {
       };
 
       setMessageHistory((prevHistory) => [...prevHistory, modelMessage]);
+      setTimeout(function () {
+        let divElement = document.getElementById("chat");
+        // Scroll to the bottom of the div
+        divElement.scrollTop = divElement.scrollHeight;
+      }, 500);
     } catch (error) {
       console.error("Error sending message to Gemini:", error);
     }
@@ -307,7 +315,8 @@ const Chat = ({ context }) => {
           </div>
         </div>
       </div>
-      <div className="flex-grow overflow-y-auto px-5 my-1">
+
+      <div className="flex-grow overflow-y-auto px-5 my-1" id="chat">
         {loading ? (
           <div className="flex justify-center items-center h-full">
             <p className="text-white">Loading memes...</p>{" "}
@@ -316,15 +325,18 @@ const Chat = ({ context }) => {
         ) : (
           messageHistory.slice(2).map((message) => {
             // Start from index 2 to hide the first 2 messages
+
             if (message.type === "sent") {
               return <Send Message={message.content} key={message.id} />;
             } else if (message.type === "received") {
               return (
-                <Receive
-                  Message={message.content}
-                  key={message.id}
-                  memes={memes}
-                />
+                <div>
+                  <Receive
+                    Message={message.content}
+                    key={message.id}
+                    memes={memes}
+                  />
+                </div>
               );
             }
             return null; // In case of unexpected message types

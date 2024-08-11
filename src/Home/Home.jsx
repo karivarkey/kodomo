@@ -185,7 +185,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div className="px-3">
+      <div className="px-3 pb-10 mp-10">
         <div className="border-2 border-black rounded-md shadow-[0px_5px_0px_0px_#000000]">
           <div className="font-syne font-bold pl-4 text-xl">
             <p>Suggested Topics</p>
@@ -196,8 +196,8 @@ const Home = () => {
           <div className="flex justify-center w-full py-2">
             <img src={line} />
           </div>
-          <div className="flex flex-col max-h-96 overflow-y-auto px-2 py-2 scroll-smooth scrollbar-hide">
-            <div className="flex flex-col p-3 gap-3 ">
+          <div className="flex flex-col max-h-96 overflow-y-auto px-2 py-2 scroll-smooth scrollbar-hide pb-10">
+            <div className="flex flex-col p-3 gap-3 rounded">
               {userData.recommendedCourses.map((item, key) => (
                 <Course
                   key={key}
@@ -209,24 +209,25 @@ const Home = () => {
             </div>
           </div>
         </div>
+        <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 inline-flex 0 mx-auto bg-primary border-2 border-black w-11/12 rounded-full h-16 shadow-[3px_5px_0px_0px_#000000] justify-around">
+          <div className="flex justify-center items-center">
+            <img src={profile} />
+          </div>
+          <div className="flex justify-center items-center">
+            <img src={home} />
+          </div>
+          <div className="flex justify-center items-center">
+            <button
+              onClick={() => {
+                navigate("/home/chat", { state: { context: "General Chat" } });
+              }}
+            >
+              <img src={chat} />
+            </button>
+          </div>
+        </div>
       </div>
-      <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 inline-flex 0 mx-auto bg-primary border-2 border-black w-11/12 rounded-full h-16 shadow-[3px_5px_0px_0px_#000000] justify-around">
-        <div className="flex justify-center items-center">
-          <img src={profile} />
-        </div>
-        <div className="flex justify-center items-center">
-          <img src={home} />
-        </div>
-        <div className="flex justify-center items-center">
-          <button
-            onClick={() => {
-              navigate("/home/chat", { state: { context: "General Chat" } });
-            }}
-          >
-            <img src={chat} />
-          </button>
-        </div>
-      </div>
+
       <Toaster
         position="bottom-center"
         gutter={8}
