@@ -5,6 +5,7 @@ import ReactMarkdown from "react-markdown";
 import gif from "./assets/speak.svg";
 const Receive = ({ Message, memes }) => {
   // Parse the incoming message
+  //console.log(Message);
   const response = JSON.parse(Message);
   const [url, setUrl] = useState("");
 

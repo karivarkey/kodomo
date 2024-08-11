@@ -7,6 +7,7 @@ import Home from "./Home/Home";
 import Interests from "./Signup/Interests";
 import Chat from "./Chat/Chat";
 import Error from "./Error/Error";
+import Profile from "./Profile/Profile";
 
 export const App = () => {
   return (
@@ -19,6 +20,7 @@ export const App = () => {
         <Route path="/home" element={<Home />} />
         <Route path="/interests" element={<Interests />} />
         <Route path="/home/chat" element={<Chat />} />
+        <Route path="/home/profile" element={<Profile />} />
         <Route path="*" element={<Error />} /> {/* 404 Route */}
       </Routes>
     </Router>

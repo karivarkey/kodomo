@@ -210,12 +210,20 @@ const Home = () => {
           </div>
         </div>
         <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 inline-flex 0 mx-auto bg-primary border-2 border-black w-11/12 rounded-full h-16 shadow-[3px_5px_0px_0px_#000000] justify-around">
-          <div className="flex justify-center items-center">
-            <img src={profile} />
-          </div>
-          <div className="flex justify-center items-center">
+          <button
+            onClick={() => {
+              navigate("/home/profile");
+            }}
+          >
+            <div className="flex justify-center items-center">
+              <img src={profile} />
+            </div>
+          </button>
+          <div className="flex flex-col justify-center items-center ">
             <img src={home} />
+            <div className="w-1/2 h-1 mt-2 bg-black"></div>
           </div>
+
           <div className="flex justify-center items-center">
             <button
               onClick={() => {
