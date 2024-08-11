@@ -53,7 +53,7 @@ const Receive = ({ Message, memes }) => {
           <div className="flex items-end space-x-3">
             <div>
               <div className="bg-[#E582BE] p-2 max-w-lg text-wrap text-md ml-3 rounded-md border-2 border-black shadow-[-2px_2px_0px_0px_#000000] break-words overflow-wrap-anywhere">
-                <img src={url} alt="Meme" />
+                <img src={url}  />
               </div>
               <div className="bg-[#E582BE] p-3 max-w-lg text-md rounded-md border-2 text-wrap border-black shadow-[-2px_2px_0px_0px_#000000] break-words overflow-wrap-anywhere w-full">
                 <ReactMarkdown>{response.response}</ReactMarkdown>

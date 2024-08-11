@@ -156,29 +156,39 @@ const Interests = () => {
 
     const auth = getAuth(app);
 
-    toast
-      .promise(createCourses(interests), {
-        loading: "Tuning Kodomo to your interests...",
-        success: "Kodomo is ready for you!",
-        error: (err) => `This just happened: ${err.toString()}`,
-      })
-      .then((result) => {
-        const courses = JSON.parse(result);
-        const data = {
-          name: auth.currentUser.displayName,
-          userInterest: interests,
-          userid: auth.currentUser.uid,
-          recommendedCourses: courses,
-        };
-        setDoc(doc(db, "users", auth.currentUser.uid), data);
-        navigate("/home");
-      });
+    if (interests.length == 0) {
+      toast.error("Please choose at least one interst");
+    } else {
+      toast
+        .promise(createCourses(interests), {
+          loading: "Tuning Kodomo to your interests...",
+          success: "Kodomo is ready for you!",
+          error: (err) => `This just happened: ${err.toString()}`,
+        })
+        .then((result) => {
+          const courses = JSON.parse(result);
+          const data = {
+            name: auth.currentUser.displayName,
+            userInterest: interests,
+            userid: auth.currentUser.uid,
+            recommendedCourses: courses,
+          };
+          setDoc(doc(db, "users", auth.currentUser.uid), data);
+          navigate("/home");
+        });
+    }
   }
 
   return (
     <div className="min-h-dvh bg-primary flex flex-col">
       <div className="p-5">
-        <img src={back} className="max-h-8 " />
+        <button
+          onClick={() => {
+            navigate(-1);
+          }}
+        >
+          <img src={back} className="max-h-8 " />
+        </button>
         <div className="flex flex-col gap-2">
           <p className="text-black font-syne font-bold text-2xl [text-shadow:_2px_2px_0_rgb(229_130_190_/_100%)] text-left">
             WHAT'S YOUR FLASH?
@@ -216,21 +226,43 @@ const Interests = () => {
                 placeholder="What are you interested in?"
                 className="bg-primary pl-3 font-mont w-full border-2 border-black rounded-md"
                 onChange={(e) => setValue(e.target.value)}
+                value={value}
               />
 
               <button
                 className="
-            bg-secondary w-1/3 text-center rounded-md border-2 border-black shadow-[0px_5px_0px_0px_#000000] font-mont font-black"
+    bg-secondary w-1/3 text-center rounded-md border-2 border-black shadow-[0px_5px_0px_0px_#000000] font-mont font-black"
                 onClick={() => {
-                  if (interests.includes(value)) {
-                    setInterests(interests.filter((i) => i !== value));
-                  } else {
+                  if (value.trim() !== "" && !interests.includes(value)) {
                     setInterests([...interests, value]);
                   }
+                  setValue(""); // Clear the input box after adding the interest
                 }}
               >
                 ADD
               </button>
+            </div>
+          </div>
+          <div className="bg-[#FFDADA] rounded-xl min-h-32 border-2 border-black flex flex-col pb-5">
+            <p className="font-mont font-black text-base p-3">CURRENT LIST</p>
+            <div className="flex flex-wrap gap-2 px-3">
+              {interests.length > 0 ? (
+                interests.map((interest, index) => (
+                  <button
+                    key={index}
+                    className="bg-secondary text-black font-medium px-3 py-1 rounded-full text-sm border-2 border-black shadow-[0px_5px_0px_0px_#ffffff]"
+                    onClick={() => {
+                      setInterests(interests.filter((i) => i !== interest));
+                    }}
+                  >
+                    {interest}
+                  </button>
+                ))
+              ) : (
+                <p className="text-black text-center w-full font-semibold text-lg">
+                  Uh oh! No interests added yet.
+                </p>
+              )}
             </div>
           </div>
         </div>
@@ -253,7 +285,7 @@ const Interests = () => {
         toastOptions={{
           // Define default options
           className: "",
-          duration: 5000,
+          duration: 1500,
           style: {
             background: "#E582BE",
             color: "#FAEDCD",
@@ -261,7 +293,7 @@ const Interests = () => {
 
           // Default options for specific types
           success: {
-            duration: 3000,
+            duration: 2000,
             theme: {
               primary: "green",
               secondary: "black",
