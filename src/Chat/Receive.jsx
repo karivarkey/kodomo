@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import MarkdownRenderer from "./MarkdownRenderer";
 import ReactMarkdown from "react-markdown";
-import gif from "./assets/speak.svg";
+import gif from "./assets/talking.svg";
+import kodomo from "./assets/talkingNew.svg";
 const Receive = ({ Message, memes }) => {
   // Parse the incoming message
 
@@ -80,7 +81,7 @@ const Receive = ({ Message, memes }) => {
               )}
             </div>
           </div>
-          <img src={gif} alt="" className="max-h-12 py-3" />
+          <img src={kodomo} alt="" className="max-h-12 mt-2" />
         </div>
       </motion.div>
     </>
