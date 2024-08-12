@@ -5,6 +5,7 @@
 Welcome to **KODOMO**, the AI app that’s here to make you **big brain** 🧠 using the most sophisticated educational tool known to humanity: **memes**. 🎉 Why read boring textbooks when you can get schooled by memes that slap? 😏
 
 Check out the [Live App](https://kodomo-firebase.web.app)
+Check out our [Product Video](https://youtu.be/pOX03ACBTi0)
 
 ## 💥 Features
 
@@ -224,10 +225,38 @@ This app is licensed under the MIT License, so go ahead, remix it, and make it y
 
 ## 💬 Contact
 
-Got questions? Wanna share memes? Hit me up:
+Got questions? Wanna share memes with the creators? Hit us up:
+
+### TECH
 
 - **Email**: geevargheseregi78@gmail.com
 - **GitHub**: [karivarkey](https://github.com/your-karivarkey)
+- **LinkedIn** : https://in.linkedin.com/in/geevarghese-regi-658531214
+- **Instagram** : https://www.instagram.com/karivarkey/
+
+### DESIGN
+
+- **LinkedIn**: https://www.linkedin.com/in/karthika-suresh-6b030329b
+- **Instagram**: https://www.instagram.com/___.karthiii
+- **Github**: https://github.com/KarthikaSuresh03
+
+### SOCIAL MEDIA
+
+- **LinkedIn**: https://www.linkedin.com/in/jacob-jayan/
+- **Instagram**: https://www.instagram.com/jacob.jk_/?hl=en
+- **Github**: https://github.com/jacobjk04
+
+### UI/UX
+
+- **LinkedIn**: https://www.linkedin.com/in/mevin-manuel-b3b670275
+- **Instagram**: https://www.instagram.com/mevin_manuel
+- **Github**: https://github.com/MevinManuel
+
+### VIDEO EDITORS
+
+- **LinkedIn**: https://www.linkedin.com/in/captph03nix
+- **Instagram**: https://www.instagram.com/capt_ph03nix/
+- **Github**: https://github.com/captPh03nix
 
 ---
 
